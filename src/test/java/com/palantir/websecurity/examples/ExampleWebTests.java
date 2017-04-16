@@ -4,19 +4,18 @@
 
 package com.palantir.websecurity.examples;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNull;
-
 import com.google.common.net.HttpHeaders;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.testing.junit.DropwizardAppRule;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.core.Response;
 import org.glassfish.jersey.client.ClientProperties;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.core.Response;
+
+import static org.junit.Assert.*;
 
 /**
  * Tests for {@link Example.ExampleWebApplication}.

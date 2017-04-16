@@ -4,12 +4,13 @@
 
 package com.palantir.websecurity.filters;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.common.net.HttpHeaders;
 import com.palantir.websecurity.WebSecurityConfiguration;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Injects different security headers based on a {@link WebSecurityConfiguration}. These headers include:

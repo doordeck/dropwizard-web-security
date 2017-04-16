@@ -39,6 +39,11 @@ public abstract class WebSecurityConfiguration {
     public abstract Optional<String> xssProtection();
 
     /**
+     * Value to be returned in the response header {@link com.google.common.net.HttpHeaders#STRICT_TRANSPORT_SECURITY}.
+     */
+    public abstract Optional<String> strictTransportSecurity();
+
+    /**
      * Configuration for CORS functionality.
      */
     public abstract Optional<CorsConfiguration> cors();
@@ -65,6 +70,8 @@ public abstract class WebSecurityConfiguration {
         Builder xssProtection(String xssProtection);
 
         Builder cors(CorsConfiguration corsConfiguration);
+
+        Builder strictTransportSecurity(String strictTransportSecurity);
 
         Builder from(WebSecurityConfiguration otherConfig);
 

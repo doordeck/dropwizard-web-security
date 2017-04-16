@@ -1,26 +1,24 @@
 dropwizard-web-security
 =======================
-[![Circle CI](https://circleci.com/gh/palantir/dropwizard-web-security.svg?style=shield&circle-token=52b148126fda6cfba213cb832ff733d04d0d7277)](https://circleci.com/gh/palantir/dropwizard-web-security)
-[![Download](https://api.bintray.com/packages/palantir/releases/dropwizard-web-security/images/download.svg) ](https://bintray.com/palantir/releases/dropwizard-web-security/_latestVersion)
+[![CircleCI](https://circleci.com/gh/doordeck/dropwizard-web-security.svg?style=shield&circle-token=4b12d76c9f416588c19ff925ed8578f80469c472)](https://circleci.com/gh/doordeck/dropwizard-web-security)
 
 A bundle for applying default web security functionality to a dropwizard application. It covers the following areas:
 
 - [Cross-Origin Resource Sharing (CORS)][cors1] [\[2\]][cors2] [\[3\]][cors3]
 - Web Application Security Headers ([Content Security Policy][csp], etc.)
+- Strict Transport Security Header (HSTS)
 
 
 Usage
 -----
 1. Add the dependency to your project.
 
-    ```groovy
-    repository {
-        jcenter()
-    }
-
-    dependencies {
-        compile 'com.palantir.websecurity:dropwizard-web-security:<latest-version>'
-    }
+    ```maven
+    <dependency>
+        <groupId>com.doordeck.websecurity</groupId>
+        <artifactId>dropwizard-web-security</artifactId>
+        <version>1.1.0</version>
+    </dependency>
     ```
 
 2. Ensure your configuration implements `WebSecurityConfigurable`.
@@ -64,6 +62,7 @@ webSecurity:
   contentTypeOptions: "nosniff"                                                     # X-Content-Type-Options
   frameOptions: "sameorigin"                                                        # X-Frame-Options
   xssProtection: "1; mode=block"                                                    # X-XSS-Protection
+  strictTransportSecurity: ""                                                       # Strict-Transport-Security
 ```
 
 **NOTE:** To disable a specific header, set the value to `""`.
@@ -142,6 +141,9 @@ Contributing
 ------------
 Before working on the code, if you plan to contribute changes, please read the [CONTRIBUTING](CONTRIBUTING.md) document.
 
+Credits
+-------
+```com.doordeck.websecurity:dropwizard-web-security``` is based on a fork of [dropwizard-web-security](https://github.com/palantir/dropwizard-web-security).
 
 License
 -------

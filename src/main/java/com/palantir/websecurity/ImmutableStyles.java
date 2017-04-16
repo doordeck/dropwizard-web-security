@@ -4,9 +4,10 @@
 
 package com.palantir.websecurity;
 
+import org.immutables.value.Value.Style;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
-import org.immutables.value.Value.Style;
 
 /**
  * Styles for immutable classes.

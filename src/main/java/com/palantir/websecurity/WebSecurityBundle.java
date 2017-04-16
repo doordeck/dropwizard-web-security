@@ -4,22 +4,24 @@
 
 package com.palantir.websecurity;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
-
 import com.google.common.collect.ImmutableMap;
 import com.palantir.websecurity.filters.JerseyAwareWebSecurityFilter;
+import com.palantir.websecurity.filters.StrictTransportSecurityFilter;
 import io.dropwizard.Configuration;
 import io.dropwizard.ConfiguredBundle;
 import io.dropwizard.server.AbstractServerFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import org.eclipse.jetty.servlets.CrossOriginFilter;
+
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
 import java.util.EnumSet;
 import java.util.Map;
 import java.util.Optional;
-import javax.servlet.DispatcherType;
-import javax.servlet.FilterRegistration;
-import org.eclipse.jetty.servlets.CrossOriginFilter;
+
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Applies and configures security filters to the application.
@@ -78,6 +80,7 @@ public final class WebSecurityBundle implements ConfiguredBundle<WebSecurityConf
 
         applyCors(this.derivedConfiguration, environment);
         applyWebSecurity(this.derivedConfiguration, environment, getJerseyRootPath(configuration));
+        applyStrictTransportSecurity(this.derivedConfiguration, environment);
     }
 
     /**
@@ -126,6 +129,14 @@ public final class WebSecurityBundle implements ConfiguredBundle<WebSecurityConf
         env.servlets()
                 .addFilter("JerseyAwareWebSecurityFilter", filter)
                 .addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, ROOT_PATH);
+    }
+
+    private static void applyStrictTransportSecurity(WebSecurityConfiguration derivedConfig, Environment environment) {
+        if (!derivedConfig.strictTransportSecurity().isPresent() || derivedConfig.strictTransportSecurity().get().isEmpty()) {
+            return;
+        }
+
+        environment.jersey().register(new StrictTransportSecurityFilter(derivedConfig));
     }
 
     /**

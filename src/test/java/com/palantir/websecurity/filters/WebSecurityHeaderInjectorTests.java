@@ -4,14 +4,14 @@
 
 package com.palantir.websecurity.filters;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
 import com.google.common.net.HttpHeaders;
 import com.palantir.websecurity.WebSecurityConfiguration;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Tests for {@link WebSecurityHeaderInjector}.
@@ -54,6 +54,7 @@ public final class WebSecurityHeaderInjectorTests {
         response.addHeader(HttpHeaders.X_CONTENT_TYPE_OPTIONS, TEST_VALUE);
         response.addHeader(HttpHeaders.X_FRAME_OPTIONS, TEST_VALUE);
         response.addHeader(HttpHeaders.X_XSS_PROTECTION, TEST_VALUE);
+        response.addHeader(HttpHeaders.STRICT_TRANSPORT_SECURITY, TEST_VALUE);
 
         injector.injectHeaders(request, response);
 
@@ -62,6 +63,7 @@ public final class WebSecurityHeaderInjectorTests {
         assertEquals(1, response.getHeaders(HttpHeaders.X_CONTENT_TYPE_OPTIONS).size());
         assertEquals(1, response.getHeaders(HttpHeaders.X_FRAME_OPTIONS).size());
         assertEquals(1, response.getHeaders(HttpHeaders.X_XSS_PROTECTION).size());
+        assertEquals(1, response.getHeaders(HttpHeaders.STRICT_TRANSPORT_SECURITY).size());
     }
 
     @Test
@@ -137,5 +139,10 @@ public final class WebSecurityHeaderInjectorTests {
         injector.injectHeaders(request, response);
 
         assertEquals(TEST_VALUE, response.getHeader(HttpHeaders.X_XSS_PROTECTION));
+    }
+
+    @Test
+    public void testStrictTransportSecurityUnset() {
+        assertEquals(null, response.getHeader(HttpHeaders.STRICT_TRANSPORT_SECURITY));
     }
 }

@@ -4,16 +4,17 @@
 
 package com.palantir.websecurity;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import com.google.common.collect.Iterables;
 import io.dropwizard.validation.BaseValidator;
 import io.dropwizard.validation.ValidationMethod;
-import java.util.Set;
+import org.junit.Test;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
-import org.junit.Test;
+import java.util.Set;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests for {@link CorsConfiguration}.

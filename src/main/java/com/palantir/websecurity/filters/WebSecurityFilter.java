@@ -4,21 +4,17 @@
 
 package com.palantir.websecurity.filters;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.palantir.websecurity.WebSecurityConfiguration;
-import java.io.IOException;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- * A filter that injects the App Security headers using a {@link WebSecurityHeaderInjector} to every request.
+ * A filter that injects the Strict-Transport-Security to every request.
  */
 public final class WebSecurityFilter implements Filter {
 

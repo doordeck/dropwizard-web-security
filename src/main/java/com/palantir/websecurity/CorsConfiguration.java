@@ -8,13 +8,14 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import io.dropwizard.validation.ValidationMethod;
+import org.eclipse.jetty.servlets.CrossOriginFilter;
+import org.immutables.value.Value;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
-import org.eclipse.jetty.servlets.CrossOriginFilter;
-import org.immutables.value.Value;
 
 /**
  * Configuration class used to set the properties for a {@link CrossOriginFilter}. If a value is not set it will not be
@@ -114,10 +115,7 @@ public abstract class CorsConfiguration {
                 return false;
             }
 
-        } catch (PatternSyntaxException e) {
-            return false;
-
-        } catch (MalformedURLException e) {
+        } catch (PatternSyntaxException|MalformedURLException e) {
             return false;
         }
 

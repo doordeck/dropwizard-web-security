@@ -4,24 +4,21 @@
 
 package com.palantir.websecurity;
 
+import io.dropwizard.setup.Environment;
+import org.eclipse.jetty.servlets.CrossOriginFilter;
+import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterRegistration;
+import java.util.Map;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import io.dropwizard.setup.Environment;
-import java.util.Map;
-import javax.servlet.Filter;
-import javax.servlet.FilterRegistration;
-import org.eclipse.jetty.servlets.CrossOriginFilter;
-import org.junit.Test;
-import org.mockito.ArgumentCaptor;
+import static org.mockito.Mockito.*;
 
 /**
  * Tests for {@link WebSecurityBundle}.
