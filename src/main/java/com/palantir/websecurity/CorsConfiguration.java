@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Palantir Technologies, Inc. All rights reserved.
+ * (c) Copyright 2016 Palantir Technologies Inc. All rights reserved.
  */
 
 package com.palantir.websecurity;
@@ -48,6 +48,11 @@ public abstract class CorsConfiguration {
      * If set, will be used to set the initial property {@code allowedOrigins}.
      */
     public abstract Optional<String> allowedOrigins();
+
+    /**
+     * If set, will be used to set the initial property {@code chainPreflight}.
+     */
+    public abstract Optional<Boolean> chainPreflight();
 
     /**
      * Determines if {@link CrossOriginFilter} is applied. Returns true if there is an {@link #allowedOrigins()} value
@@ -149,6 +154,8 @@ public abstract class CorsConfiguration {
         Builder allowedMethods(String allowedMethods);
 
         Builder allowedOrigins(String allowedOrigins);
+
+        Builder chainPreflight(boolean chainPreflight);
 
         Builder exposedHeaders(String exposedHeaders);
 

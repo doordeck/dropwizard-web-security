@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Palantir Technologies, Inc. All rights reserved.
+ * (c) Copyright 2016 Palantir Technologies Inc. All rights reserved.
  */
 
 package com.palantir.websecurity;
@@ -112,6 +112,10 @@ public final class WebSecurityBundle implements ConfiguredBundle<WebSecurityConf
 
         String allowCredentials = Boolean.toString(cors.allowCredentials().or(DEFAULT_ALLOW_CREDENTIALS));
         propertyBuilder.put(CrossOriginFilter.ALLOW_CREDENTIALS_PARAM, allowCredentials);
+
+        if (cors.chainPreflight().isPresent()) {
+            propertyBuilder.put(CrossOriginFilter.CHAIN_PREFLIGHT_PARAM, Boolean.toString(cors.chainPreflight().get()));
+        }
 
         if (cors.preflightMaxAge().isPresent()) {
             propertyBuilder.put(CrossOriginFilter.PREFLIGHT_MAX_AGE_PARAM, Long.toString(cors.preflightMaxAge().get()));

@@ -81,6 +81,7 @@ webSecurity:
     allowedHeaders: "Accept,Authorization,Content-Type,Origin,X-Requested-With"
     allowedMethods: "DELETE,GET,HEAD,POST,PUT"
     allowedOrigins: ""
+    chainPreflight: true
     exposedHeaders: ""
     preflightMaxAge: 1800
 ```

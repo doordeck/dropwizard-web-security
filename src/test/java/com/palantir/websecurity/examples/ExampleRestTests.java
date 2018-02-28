@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Palantir Technologies, Inc. All rights reserved.
+ * (c) Copyright 2016 Palantir Technologies Inc. All rights reserved.
  */
 
 package com.palantir.websecurity.examples;
@@ -35,8 +35,8 @@ public final class ExampleRestTests {
     @BeforeClass
     public static void beforeClass() {
         client = new JerseyClientBuilder(RULE.getEnvironment())
-                .withProperty(ClientProperties.CONNECT_TIMEOUT, 1000)
-                .withProperty(ClientProperties.READ_TIMEOUT, 1000)
+                .withProperty(ClientProperties.CONNECT_TIMEOUT, 10000)
+                .withProperty(ClientProperties.READ_TIMEOUT, 10000)
                 .build("tests");
     }
 
