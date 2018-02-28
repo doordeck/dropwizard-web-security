@@ -1,0 +1,23 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:8-jdk-node-browsers
+    steps:
+      - checkout
+
+      - restore_cache:
+          key: dropwizard-web-security-{{ checksum "pom.xml" }}
+
+      - run: mvn dependency:go-offline
+
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: dropwizard-web-security-{{ checksum "pom.xml" }}
+
+
+      - run: mvn clean package
+
+      - store_artifacts:
+          path: target/dropwizard-web-security-1.2.1-SNAPSHOT.jar
