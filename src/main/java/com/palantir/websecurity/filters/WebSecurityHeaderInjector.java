@@ -10,7 +10,7 @@ import com.palantir.websecurity.WebSecurityConfiguration;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 /**
  * Injects different security headers based on a {@link WebSecurityConfiguration}. These headers include:
@@ -39,17 +39,17 @@ public final class WebSecurityHeaderInjector {
     private final String xssProtection;
 
     public WebSecurityHeaderInjector(WebSecurityConfiguration config) {
-        checkNotNull(config);
+        requireNonNull(config);
 
-        this.contentSecurityPolicy = config.contentSecurityPolicy().or(DEFAULT_CONTENT_SECURITY_POLICY);
-        this.contentTypeOptions = config.contentTypeOptions().or(DEFAULT_CONTENT_TYPE_OPTIONS);
-        this.frameOptions = config.frameOptions().or(DEFAULT_FRAME_OPTIONS);
-        this.xssProtection = config.xssProtection().or(DEFAULT_XSS_PROTECTION);
+        this.contentSecurityPolicy = config.contentSecurityPolicy().orElse(DEFAULT_CONTENT_SECURITY_POLICY);
+        this.contentTypeOptions = config.contentTypeOptions().orElse(DEFAULT_CONTENT_TYPE_OPTIONS);
+        this.frameOptions = config.frameOptions().orElse(DEFAULT_FRAME_OPTIONS);
+        this.xssProtection = config.xssProtection().orElse(DEFAULT_XSS_PROTECTION);
     }
 
     public void injectHeaders(HttpServletRequest request, HttpServletResponse response) {
-        checkNotNull(request);
-        checkNotNull(response);
+        requireNonNull(request);
+        requireNonNull(response);
 
         if (!this.contentSecurityPolicy.isEmpty()) {
             response.setHeader(HttpHeaders.CONTENT_SECURITY_POLICY, this.contentSecurityPolicy);

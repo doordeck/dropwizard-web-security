@@ -16,7 +16,6 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.core.Response;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 
 /**
  * Tests for {@link Example.ExampleRestApplication}.
@@ -55,18 +54,4 @@ public final class ExampleRestTests {
         assertEquals(ORIGIN_VALUE, response.getHeaderString(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN));
     }
 
-    @Test
-    public void testWebSecurityHeadersNotAppliedToApi() {
-        Response response = client
-                .target(String.format("http://localhost:%d/example-context/hello", RULE.getLocalPort())).request()
-                .get();
-
-        // check basic functionality
-        assertEquals(200, response.getStatus());
-
-        // check that no web security headers are on the response
-        assertNull(response.getHeaderString(HttpHeaders.CONTENT_SECURITY_POLICY));
-        assertNull(response.getHeaderString(HttpHeaders.X_CONTENT_TYPE_OPTIONS));
-        assertNull(response.getHeaderString(HttpHeaders.X_FRAME_OPTIONS));
-    }
 }

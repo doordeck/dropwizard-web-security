@@ -5,7 +5,6 @@
 package com.palantir.websecurity;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import io.dropwizard.validation.ValidationMethod;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
@@ -14,6 +13,8 @@ import org.immutables.value.Value;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalLong;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -60,7 +61,7 @@ public abstract class CorsConfiguration {
      */
     @Value.Derived
     public boolean enabled() {
-        return !allowedOrigins().or(DISABLED_ORIGINS).isEmpty();
+        return !allowedOrigins().orElse(DISABLED_ORIGINS).isEmpty();
     }
 
     /**
@@ -71,11 +72,11 @@ public abstract class CorsConfiguration {
     /**
      * If set, will be used to set the initial property {@code preflightMaxAge}.
      */
-    public abstract Optional<Long> preflightMaxAge();
+    public abstract OptionalLong preflightMaxAge();
 
     @ValidationMethod(message = "preflightMaxAge can't be negative")
     private boolean isPreflightMaxAgeNegative() {
-        return preflightMaxAge().or(0L) >= 0L;
+        return preflightMaxAge().orElse(0L) >= 0L;
     }
 
     @ValidationMethod(message = "allowedOrigins can't contain malformed URLs, URLs with a path, or malformed regex")

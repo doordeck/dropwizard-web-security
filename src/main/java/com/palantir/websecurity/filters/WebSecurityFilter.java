@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 /**
  * A filter that injects the Strict-Transport-Security to every request.
@@ -21,13 +21,13 @@ public final class WebSecurityFilter implements Filter {
     private final WebSecurityHeaderInjector injector;
 
     public WebSecurityFilter(WebSecurityConfiguration config) {
-        checkNotNull(config);
+        requireNonNull(config);
 
         this.injector = new WebSecurityHeaderInjector(config);
     }
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
+    public void init(FilterConfig filterConfig) {
         // intentionally left blank
     }
 
@@ -40,9 +40,9 @@ public final class WebSecurityFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
-        checkNotNull(request);
-        checkNotNull(response);
-        checkNotNull(chain);
+        requireNonNull(request);
+        requireNonNull(response);
+        requireNonNull(chain);
 
         if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
             this.injector.injectHeaders((HttpServletRequest) request, (HttpServletResponse) response);

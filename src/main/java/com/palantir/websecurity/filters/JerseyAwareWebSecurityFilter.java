@@ -11,23 +11,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 /**
- * A filter that injects the App Security headers using a {@link WebSecurityHeaderInjector} to all requests except for
- * those on the {@link #jerseyRoot} path.
+ * A filter that injects the App Security headers using a {@link WebSecurityHeaderInjector} to all requests.
  */
 public final class JerseyAwareWebSecurityFilter implements Filter {
 
     private final WebSecurityHeaderInjector injector;
-    private final String jerseyRoot;
 
-    public JerseyAwareWebSecurityFilter(WebSecurityConfiguration config, String jerseyRoot) {
-        checkNotNull(config);
-        checkNotNull(jerseyRoot);
+    public JerseyAwareWebSecurityFilter(WebSecurityConfiguration config) {
+        requireNonNull(config);
 
         this.injector = new WebSecurityHeaderInjector(config);
-        this.jerseyRoot = cleanJerseyRoot(jerseyRoot);
     }
 
     @Override
@@ -44,44 +40,17 @@ public final class JerseyAwareWebSecurityFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
-        checkNotNull(request);
-        checkNotNull(response);
-        checkNotNull(chain);
+        requireNonNull(request);
+        requireNonNull(response);
+        requireNonNull(chain);
 
         if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
             HttpServletRequest httpRequest = (HttpServletRequest) request;
 
-            if (!isJerseyRequest(httpRequest)) {
-                this.injector.injectHeaders(httpRequest, (HttpServletResponse) response);
-            }
+            this.injector.injectHeaders(httpRequest, (HttpServletResponse) response);
         }
 
         chain.doFilter(request, response);
     }
 
-    private boolean isJerseyRequest(HttpServletRequest request) {
-        String cleanedServletPath = cleanJerseyRoot(request.getServletPath().toLowerCase());
-        return this.jerseyRoot.equals(cleanedServletPath);
-    }
-
-    /**
-     * Cleans the Jersey root path to start with a slash and end without a star or slash.
-     */
-    private static String cleanJerseyRoot(String rawJerseyRoot) {
-        String cleaned = rawJerseyRoot;
-
-        if (cleaned.endsWith("*")) {
-            cleaned = cleaned.substring(0, cleaned.length() - 1);
-        }
-
-        if (cleaned.endsWith("/")) {
-            cleaned = cleaned.substring(0, cleaned.length() - 1);
-        }
-
-        if (!cleaned.startsWith("/")) {
-            cleaned = "/" + cleaned;
-        }
-
-        return cleaned;
-    }
 }

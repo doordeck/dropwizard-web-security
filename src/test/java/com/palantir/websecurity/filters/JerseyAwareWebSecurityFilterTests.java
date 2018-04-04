@@ -15,7 +15,6 @@ import javax.servlet.ServletException;
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -32,7 +31,7 @@ public final class JerseyAwareWebSecurityFilterTests {
     public void testInjectInHttpServletRequests() throws IOException, ServletException {
         MockHttpServletRequest request = new MockHttpServletRequest("GET", "/index.html");
 
-        JerseyAwareWebSecurityFilter filter = new JerseyAwareWebSecurityFilter(DEFAULT_CONFIG, "/jersey/root/*");
+        JerseyAwareWebSecurityFilter filter = new JerseyAwareWebSecurityFilter(DEFAULT_CONFIG);
         request.setPathInfo("/api");
 
         filter.doFilter(request, response, chain);
@@ -41,31 +40,4 @@ public final class JerseyAwareWebSecurityFilterTests {
         assertEquals(WebSecurityHeaderInjector.DEFAULT_FRAME_OPTIONS, response.getHeader(HttpHeaders.X_FRAME_OPTIONS));
     }
 
-    @Test
-    public void testNotInjectForJerseyPathWithStar() throws IOException, ServletException {
-        JerseyAwareWebSecurityFilter filter = new JerseyAwareWebSecurityFilter(DEFAULT_CONFIG, "/api/*");
-        assertNotInjecting(filter);
-    }
-
-    @Test
-    public void testNotInjectForJerseyPathNoStar() throws IOException, ServletException {
-        JerseyAwareWebSecurityFilter filter = new JerseyAwareWebSecurityFilter(DEFAULT_CONFIG, "/api/");
-        assertNotInjecting(filter);
-    }
-
-    @Test
-    public void testNotInjectForJerseyPathNoSlash() throws IOException, ServletException {
-        JerseyAwareWebSecurityFilter filter = new JerseyAwareWebSecurityFilter(DEFAULT_CONFIG, "/api");
-        assertNotInjecting(filter);
-    }
-
-    private void assertNotInjecting(JerseyAwareWebSecurityFilter filter) throws IOException, ServletException {
-        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/api/hello");
-        // the servlet path is used to check if the request is for Jersey
-        request.setServletPath("/api");
-
-        filter.doFilter(request, response, chain);
-
-        assertNull(response.getHeader(HttpHeaders.X_FRAME_OPTIONS));
-    }
 }

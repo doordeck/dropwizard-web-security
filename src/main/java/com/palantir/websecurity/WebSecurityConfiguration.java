@@ -5,8 +5,9 @@
 package com.palantir.websecurity;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.google.common.base.Optional;
 import org.immutables.value.Value.Immutable;
+
+import java.util.Optional;
 
 /**
  * Root-level Configuration for the {@link WebSecurityBundle}.

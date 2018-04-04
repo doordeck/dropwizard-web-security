@@ -8,7 +8,6 @@ import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
-import java.io.IOException;
 
 import static java.util.Objects.requireNonNull;
 
@@ -24,11 +23,11 @@ public class StrictTransportSecurityFilter implements ContainerResponseFilter {
     public StrictTransportSecurityFilter(WebSecurityConfiguration config) {
         requireNonNull(config);
 
-        this.strictTransportSecurity = config.strictTransportSecurity().orNull();
+        this.strictTransportSecurity = config.strictTransportSecurity().orElse(null);
     }
 
     @Override
-    public void filter(ContainerRequestContext request, ContainerResponseContext response) throws IOException {
+    public void filter(ContainerRequestContext request, ContainerResponseContext response) {
         requireNonNull(request);
         requireNonNull(response);
 
